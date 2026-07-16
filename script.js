@@ -1,73 +1,45 @@
-// ---------------------
-// Utility: Shuffle array
-// ---------------------
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+const daysContainer = document.getElementById("days");
+const grid = document.getElementById("grid");
+const scoreDisplay = document.getElementById("score");
+const restartBtn = document.getElementById("restartBtn");
+
+let score = 0;
+
+function shuffle(array){
+    for(let i=array.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [array[i],array[j]]=[array[j],array[i]];
     }
     return array;
 }
 
-const totalDays = 7;
-let score = 0;
-
-// ---------------------
-// Create Score Display
-// ---------------------
-const scoreDisplay = document.createElement("h2");
-scoreDisplay.id = "score";
-scoreDisplay.innerText = `⭐ Score: ${score}/${totalDays}`;
-document.body.insertBefore(scoreDisplay, document.getElementById("days"));
-
-// ---------------------
-// Create Restart Button
-// ---------------------
-const restartBtn = document.createElement("button");
-restartBtn.innerText = "🔄 Play Again";
-restartBtn.style.display = "none";
-restartBtn.style.padding = "10px 20px";
-restartBtn.style.fontSize = "18px";
-restartBtn.style.margin = "20px";
-restartBtn.onclick = () => location.reload();
-document.body.appendChild(restartBtn);
-
-// ---------------------
-// Create Day Labels
-// ---------------------
-const daysContainer = document.getElementById("days");
-
 const dayNumbers = shuffle([1,2,3,4,5,6,7]);
 
-dayNumbers.forEach(day => {
-    const dayElement = document.createElement("div");
+dayNumbers.forEach(day=>{
 
-    dayElement.className = "day";
-    dayElement.draggable = true;
-    dayElement.id = "day" + day;
-    dayElement.textContent = "Day " + day;
+    const dayDiv=document.createElement("div");
 
-    dayElement.addEventListener("dragstart", function(e){
-        e.dataTransfer.setData("text", day);
+    dayDiv.className="day";
+    dayDiv.id="day"+day;
+    dayDiv.draggable=true;
+    dayDiv.innerText="Day "+day;
+
+    dayDiv.addEventListener("dragstart",(e)=>{
+        e.dataTransfer.setData("text",day);
     });
 
-    daysContainer.appendChild(dayElement);
+    daysContainer.appendChild(dayDiv);
 });
-
-// ---------------------
-// Create Shuffled Images
-// ---------------------
-const grid = document.getElementById("grid");
 
 const imageOrder = shuffle([1,2,3,4,5,6,7]);
 
-imageOrder.forEach(imageNum => {
+imageOrder.forEach(imageNum=>{
 
-    const card = document.createElement("div");
-    card.className = "card";
+    const card=document.createElement("div");
+    card.className="card";
 
-    card.innerHTML = `
-        <img src="${imageNum}.png" alt="Creation Day ${imageNum}">
+    card.innerHTML=`
+        <img src="${imageNum}.png">
         <div class="drop" data-answer="${imageNum}">
             Drop Day Here
         </div>
@@ -76,61 +48,53 @@ imageOrder.forEach(imageNum => {
     grid.appendChild(card);
 });
 
-// ---------------------
-// Drag and Drop Logic
-// ---------------------
-document.querySelectorAll(".drop").forEach(dropZone => {
+document.querySelectorAll(".drop").forEach(drop=>{
 
-    dropZone.addEventListener("dragover", function(e){
+    drop.addEventListener("dragover",(e)=>{
         e.preventDefault();
     });
 
-    dropZone.addEventListener("drop", function(e){
+    drop.addEventListener("drop",(e)=>{
+
         e.preventDefault();
 
-        const draggedDay = e.dataTransfer.getData("text");
-        const correctAnswer = this.dataset.answer;
+        const dragged=e.dataTransfer.getData("text");
+        const answer=drop.dataset.answer;
 
-        if (draggedDay === correctAnswer) {
+        if(dragged===answer){
 
-            this.innerHTML = `✅ Day ${draggedDay}`;
-            this.classList.add("correct");
-            this.style.backgroundColor = "#c8f7c5";
+            drop.innerHTML=`✅ Day ${dragged}`;
+            drop.classList.add("correct");
 
-            const dayElement = document.getElementById("day" + draggedDay);
-
-            if(dayElement){
-                dayElement.remove();
-            }
+            document.getElementById("day"+dragged).remove();
 
             score++;
-            scoreDisplay.innerText = `⭐ Score: ${score}/${totalDays}`;
 
-            // Celebration
-            if(score === totalDays){
+            scoreDisplay.innerHTML=`⭐ Score: ${score} / 7`;
 
-                setTimeout(() => {
+            if(score===7){
 
+                setTimeout(()=>{
                     alert(
-`🎉 Excellent!
+`🎉 Great Job!
 
-God created the world in six days and rested on the seventh day.
+God created the heavens and the earth.
 
-📖 Genesis 2:2-3
-
-You got ${score}/${totalDays} correct!`
+Genesis 1-2`
                     );
 
-                    restartBtn.style.display = "inline-block";
+                    restartBtn.style.display="inline-block";
 
-                }, 300);
+                },300);
+
             }
 
-        } else {
+        }else{
 
             alert("❌ Try Again!");
 
         }
+
     });
 
 });
