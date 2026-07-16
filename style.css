@@ -2,7 +2,7 @@ body{
     margin:0;
     padding:20px;
     font-family: Arial, sans-serif;
-    background: linear-gradient(#87CEEB,#DFF3FF);
+    background: linear-gradient(to bottom,#87CEEB,#EAF7FF);
 }
 
 .container{
@@ -12,14 +12,14 @@ body{
 }
 
 h1{
-    color:#1f4e79;
+    color:#1F4E79;
     font-size:42px;
     margin-bottom:10px;
 }
 
 .subtitle{
     font-size:20px;
-    color:#444;
+    color:#555;
     margin-bottom:20px;
 }
 
@@ -46,6 +46,11 @@ h1{
     font-size:22px;
     font-weight:bold;
     box-shadow:0 4px 10px rgba(0,0,0,.15);
+    transition:.2s;
+}
+
+.day:hover{
+    transform:scale(1.05);
 }
 
 #grid{
@@ -67,14 +72,32 @@ h1{
     border-radius:15px;
 }
 
+.picture-label{
+    margin-top:15px;
+    background:#f5f5f5;
+    border-radius:12px;
+    padding:12px;
+}
+
+.picture-label h3{
+    margin:0;
+    color:#1F4E79;
+}
+
+.picture-label p{
+    margin:5px 0 0;
+    color:#666;
+    font-size:14px;
+}
+
 .drop{
     margin-top:15px;
     border:3px dashed #999;
-    border-radius:15px;
-    padding:20px;
-    font-size:24px;
+    border-radius:12px;
+    padding:18px;
+    font-size:22px;
     font-weight:bold;
-    background:#f9f9f9;
+    background:#fafafa;
 }
 
 .correct{
@@ -84,11 +107,11 @@ h1{
 }
 
 #restartBtn{
-    margin-top:40px;
+    margin-top:35px;
     padding:15px 30px;
     font-size:22px;
     border:none;
-    border-radius:15px;
+    border-radius:12px;
     background:#1976D2;
     color:white;
     cursor:pointer;
