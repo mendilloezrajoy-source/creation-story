@@ -1,16 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creation Story Game</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creation Story Game</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Creation Story - Match the Day</h1>
-<p>Drag each day onto the correct picture.</p>
-<div id="days"></div>
-<div id="grid"></div>
-<script src="script.js"></script>
+
+    <div class="container">
+
+        <h1>🌍 Creation Story</h1>
+        <p class="subtitle">
+            Drag the correct day to each picture.
+        </p>
+
+        <div id="score">
+            ⭐ Score: 0 / 7
+        </div>
+
+        <div id="days"></div>
+
+        <div id="grid"></div>
+
+        <button id="restartBtn" onclick="location.reload()">
+            🔄 Play Again
+        </button>
+
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
