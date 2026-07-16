@@ -1,15 +1,6 @@
-// Correct answers
-const answers = {
-    1: "1",
-    2: "2",
-    3: "3",
-    4: "4",
-    5: "5",
-    6: "6",
-    7: "7"
-};
-
-// Shuffle function
+// ---------------------
+// Utility: Shuffle array
+// ---------------------
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -18,12 +9,39 @@ function shuffle(array) {
     return array;
 }
 
-// Create draggable day labels
+const totalDays = 7;
+let score = 0;
+
+// ---------------------
+// Create Score Display
+// ---------------------
+const scoreDisplay = document.createElement("h2");
+scoreDisplay.id = "score";
+scoreDisplay.innerText = `⭐ Score: ${score}/${totalDays}`;
+document.body.insertBefore(scoreDisplay, document.getElementById("days"));
+
+// ---------------------
+// Create Restart Button
+// ---------------------
+const restartBtn = document.createElement("button");
+restartBtn.innerText = "🔄 Play Again";
+restartBtn.style.display = "none";
+restartBtn.style.padding = "10px 20px";
+restartBtn.style.fontSize = "18px";
+restartBtn.style.margin = "20px";
+restartBtn.onclick = () => location.reload();
+document.body.appendChild(restartBtn);
+
+// ---------------------
+// Create Day Labels
+// ---------------------
 const daysContainer = document.getElementById("days");
+
 const dayNumbers = shuffle([1,2,3,4,5,6,7]);
 
 dayNumbers.forEach(day => {
     const dayElement = document.createElement("div");
+
     dayElement.className = "day";
     dayElement.draggable = true;
     dayElement.id = "day" + day;
@@ -36,8 +54,11 @@ dayNumbers.forEach(day => {
     daysContainer.appendChild(dayElement);
 });
 
-// Create shuffled image cards
+// ---------------------
+// Create Shuffled Images
+// ---------------------
 const grid = document.getElementById("grid");
+
 const imageOrder = shuffle([1,2,3,4,5,6,7]);
 
 imageOrder.forEach(imageNum => {
@@ -55,7 +76,9 @@ imageOrder.forEach(imageNum => {
     grid.appendChild(card);
 });
 
-// Drag and drop functionality
+// ---------------------
+// Drag and Drop Logic
+// ---------------------
 document.querySelectorAll(".drop").forEach(dropZone => {
 
     dropZone.addEventListener("dragover", function(e){
@@ -70,27 +93,43 @@ document.querySelectorAll(".drop").forEach(dropZone => {
 
         if (draggedDay === correctAnswer) {
 
-            this.textContent = `Day ${draggedDay} ✓`;
+            this.innerHTML = `✅ Day ${draggedDay}`;
             this.classList.add("correct");
+            this.style.backgroundColor = "#c8f7c5";
 
             const dayElement = document.getElementById("day" + draggedDay);
+
             if(dayElement){
-                dayElement.style.display = "none";
+                dayElement.remove();
             }
 
-            // Check if game completed
-            if(document.querySelectorAll(".correct").length === 7){
+            score++;
+            scoreDisplay.innerText = `⭐ Score: ${score}/${totalDays}`;
+
+            // Celebration
+            if(score === totalDays){
+
                 setTimeout(() => {
+
                     alert(
-                        "🎉 Great Job!\n\n" +
-                        "God created the world in six days and rested on the seventh day.\n\n" +
-                        "Genesis 2:2-3"
+`🎉 Excellent!
+
+God created the world in six days and rested on the seventh day.
+
+📖 Genesis 2:2-3
+
+You got ${score}/${totalDays} correct!`
                     );
+
+                    restartBtn.style.display = "inline-block";
+
                 }, 300);
             }
 
         } else {
-            alert("Try Again!");
+
+            alert("❌ Try Again!");
+
         }
     });
 
